@@ -216,12 +216,23 @@ body {
   color: var(--danger);
 }
 
-.btn-compact {
-  padding: 0.3rem 0.6rem;
-  font-size: 0.8rem;
+/* Validation */
+.grid-cols.row-incomplete .input-compact,
+.grid-cols.row-incomplete .select-compact {
+  border-color: rgba(239, 68, 68, 0.4);
 }
 
-/* Analytics & Sidebar */
+.input-compact.error,
+.select-compact.error {
+  border-color: var(--danger) !important;
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.input-compact.error::placeholder {
+  color: rgba(239, 68, 68, 0.5);
+}
+
+/* Impact & Sidebar */
 .sidebar-label {
   font-size: 0.7rem;
   font-weight: 800;

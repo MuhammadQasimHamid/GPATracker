@@ -8,6 +8,9 @@ interface GPAContextType {
     addSemester: () => void;
     removeSemester: (id: string) => void;
     toggleSemester: (id: string) => void;
+    renameSemester: (id: string, name: string) => void;
+    moveSemesterUp: (id: string) => void;
+    moveSemesterDown: (id: string) => void;
     addCourse: (semesterId: string) => void;
     updateCourse: (semesterId: string, courseId: string, updates: Partial<Course>) => void;
     removeCourse: (semesterId: string, courseId: string) => void;
@@ -25,8 +28,8 @@ export const GPAProvider = ({ children }: { children: ReactNode }) => {
         if (saved) {
             try {
                 const parsed = JSON.parse(saved);
-                // Ensure collapsed state exists for legacy data
-                setSemesters(parsed.map((s: any) => ({ ...s, isCollapsed: s.isCollapsed ?? false })));
+                // Force all collapsed on load
+                setSemesters(parsed.map((s: any) => ({ ...s, isCollapsed: true })));
             } catch (e) {
                 console.error('Failed to parse saved GPA data', e);
             }
@@ -56,7 +59,39 @@ export const GPAProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const toggleSemester = (id: string) => {
-        setSemesters(semesters.map(s => s.id === id ? { ...s, isCollapsed: !s.isCollapsed } : s));
+        setSemesters(semesters.map(s => {
+            if (s.id === id) {
+                return { ...s, isCollapsed: !s.isCollapsed };
+            }
+            // Close all others if we are opening this one
+            const currentSemester = semesters.find(sem => sem.id === id);
+            if (currentSemester && currentSemester.isCollapsed) {
+                return { ...s, isCollapsed: true };
+            }
+            return s;
+        }));
+    };
+
+    const renameSemester = (id: string, name: string) => {
+        setSemesters(semesters.map(s => s.id === id ? { ...s, name } : s));
+    };
+
+    const moveSemesterUp = (id: string) => {
+        const index = semesters.findIndex(s => s.id === id);
+        if (index > 0) {
+            const newSemesters = [...semesters];
+            [newSemesters[index - 1], newSemesters[index]] = [newSemesters[index], newSemesters[index - 1]];
+            setSemesters(newSemesters);
+        }
+    };
+
+    const moveSemesterDown = (id: string) => {
+        const index = semesters.findIndex(s => s.id === id);
+        if (index < semesters.length - 1) {
+            const newSemesters = [...semesters];
+            [newSemesters[index + 1], newSemesters[index]] = [newSemesters[index], newSemesters[index + 1]];
+            setSemesters(newSemesters);
+        }
     };
 
     const addCourse = (semesterId: string) => {
@@ -100,7 +135,7 @@ export const GPAProvider = ({ children }: { children: ReactNode }) => {
 
     return (
         <GPAContext.Provider value={{
-            semesters, addSemester, removeSemester, toggleSemester, addCourse, updateCourse, removeCourse
+            semesters, addSemester, removeSemester, toggleSemester, renameSemester, moveSemesterUp, moveSemesterDown, addCourse, updateCourse, removeCourse
         }}>
             {children}
         </GPAContext.Provider>

@@ -13,17 +13,21 @@ const grades: Grade[] = ['', 'A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 
 export default function Course({ semesterId, course }: Props) {
     const { updateCourse, removeCourse } = useGPA();
 
+    const isNameEmpty = course.name.trim() === '';
+    const isGradeEmpty = course.grade === '';
+    const isCreditsEmpty = course.creditHours === '';
+
     return (
         <div className="grid-cols">
             <input
                 type="text"
-                className="input-compact"
-                placeholder="e.g. Computer Science"
+                className={`input-compact ${isNameEmpty ? 'error' : ''}`}
+                placeholder="Course Name"
                 value={course.name}
                 onChange={(e) => updateCourse(semesterId, course.id, { name: e.target.value })}
             />
             <select
-                className="select-compact"
+                className={`select-compact ${isGradeEmpty ? 'error' : ''}`}
                 value={course.grade}
                 onChange={(e) => updateCourse(semesterId, course.id, { grade: e.target.value as Grade })}
             >
@@ -35,7 +39,7 @@ export default function Course({ semesterId, course }: Props) {
             </select>
             <input
                 type="number"
-                className="input-compact mini"
+                className={`input-compact mini ${isCreditsEmpty ? 'error' : ''}`}
                 placeholder="0"
                 min="0"
                 max="9"
