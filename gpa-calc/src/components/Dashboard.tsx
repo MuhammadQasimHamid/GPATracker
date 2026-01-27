@@ -26,8 +26,7 @@ export default function Dashboard() {
                 </div>
 
                 <div className="semesters-controls">
-                    <h2 style={{ fontSize: '1.5rem' }}>Your Semesters</h2>
-                    <button className="btn btn-primary" onClick={addSemester}>
+                    <button className="btn btn-primary add-semester-btn" onClick={addSemester}>
                         + Add Semester
                     </button>
                 </div>

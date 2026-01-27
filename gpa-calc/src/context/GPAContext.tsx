@@ -33,6 +33,20 @@ export const GPAProvider = ({ children }: { children: ReactNode }) => {
             } catch (e) {
                 console.error('Failed to parse saved GPA data', e);
             }
+        } else {
+            // Initial load with 1 semester
+            const initialId = crypto.randomUUID();
+            setSemesters([{
+                id: initialId,
+                name: "Semester 1",
+                isCollapsed: false,
+                courses: Array.from({ length: 4 }).map(() => ({
+                    id: crypto.randomUUID(),
+                    name: '',
+                    grade: '',
+                    creditHours: ''
+                }))
+            }]);
         }
         setIsInitialized(true);
     }, []);
@@ -48,10 +62,16 @@ export const GPAProvider = ({ children }: { children: ReactNode }) => {
         const newSemester: Semester = {
             id: crypto.randomUUID(),
             name: `Semester ${semesters.length + 1}`,
-            courses: [],
+            courses: Array.from({ length: 4 }).map(() => ({
+                id: crypto.randomUUID(),
+                name: '',
+                grade: '',
+                creditHours: ''
+            })),
             isCollapsed: false,
         };
-        setSemesters([...semesters, newSemester]);
+        // Close other semesters when adding new one
+        setSemesters(semesters.map(s => ({ ...s, isCollapsed: true })).concat(newSemester));
     };
 
     const removeSemester = (id: string) => {
