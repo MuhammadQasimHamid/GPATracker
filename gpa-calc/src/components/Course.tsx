@@ -17,32 +17,38 @@ export default function Course({ semesterId, course }: Props) {
         <div className="grid-cols">
             <input
                 type="text"
-                placeholder="Course Name"
+                className="input-compact"
+                placeholder="e.g. Computer Science"
                 value={course.name}
                 onChange={(e) => updateCourse(semesterId, course.id, { name: e.target.value })}
             />
             <select
+                className="select-compact"
                 value={course.grade}
                 onChange={(e) => updateCourse(semesterId, course.id, { grade: e.target.value as Grade })}
             >
                 {grades.map((g) => (
                     <option key={g} value={g}>
-                        {g === '' ? 'Select Grade' : g}
+                        {g === '' ? '-' : g}
                     </option>
                 ))}
             </select>
             <input
                 type="number"
-                placeholder="Credits"
+                className="input-compact mini"
+                placeholder="0"
                 min="0"
+                max="9"
                 value={course.creditHours}
                 onChange={(e) => {
                     const val = e.target.value;
-                    updateCourse(semesterId, course.id, { creditHours: val === '' ? '' : Number(val) });
+                    if (val === '' || (/^\d$/.test(val) && Number(val) >= 0 && Number(val) <= 9)) {
+                        updateCourse(semesterId, course.id, { creditHours: val === '' ? '' : Number(val) });
+                    }
                 }}
             />
             <button
-                className="btn btn-danger"
+                className="btn-icon-danger"
                 onClick={() => removeCourse(semesterId, course.id)}
                 aria-label="Remove Course"
             >

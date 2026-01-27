@@ -2,39 +2,53 @@
 
 import { useGPA } from '../context/GPAContext';
 import Semester from '../components/Semester';
-import { calculateCGPA } from '../utils/calculations';
+import Sidebar from '../components/Sidebar';
 
 export default function Dashboard() {
     const { semesters, addSemester } = useGPA();
-    const cgpa = calculateCGPA(semesters);
 
     return (
-        <main className="container">
-            <h1 className="title">GPA Calculator</h1>
-
-            <div className="cgpa-display glass-card">
-                <div style={{ color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                    Cumulative GPA
+        <div className="layout-wrapper">
+            {/* Left Column: Ads */}
+            <div className="ad-column left-ad">
+                <div className="ad-content">
+                    <div className="ad-box">AD SPACE</div>
+                    <div className="ad-box">AD SPACE</div>
                 </div>
-                <div className="cgpa-value">{cgpa.toFixed(2)}</div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                <h2 style={{ fontSize: '1.5rem' }}>Semesters</h2>
-                <button className="btn btn-primary" onClick={addSemester}>
-                    + Add Semester
-                </button>
-            </div>
+            {/* Middle Column: Main Content */}
+            <main className="main-content">
+                <h1 className="title-left">GPA Calculator</h1>
 
-            <div>
-                {semesters.length === 0 ? (
-                    <p style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '2rem' }}>
-                        No semesters added yet. Click "Add Semester" to get started!
-                    </p>
-                ) : (
-                    semesters.map((s) => <Semester key={s.id} semester={s} />)
-                )}
+                <div className="mobile-only">
+                    <Sidebar />
+                </div>
+
+                <div className="semesters-controls">
+                    <h2 style={{ fontSize: '1.5rem' }}>Your Semesters</h2>
+                    <button className="btn btn-primary" onClick={addSemester}>
+                        + Add Semester
+                    </button>
+                </div>
+
+                <div className="semesters-list">
+                    {semesters.length === 0 ? (
+                        <div className="glass-card" style={{ textAlign: 'center', padding: '3rem' }}>
+                            <p style={{ color: 'var(--text-muted)' }}>
+                                No semesters added yet. Start by adding your first semester!
+                            </p>
+                        </div>
+                    ) : (
+                        semesters.map((s) => <Semester key={s.id} semester={s} />)
+                    )}
+                </div>
+            </main>
+
+            {/* Right Column: CGPA & Impact */}
+            <div className="sidebar-column desktop-only">
+                <Sidebar />
             </div>
-        </main>
+        </div>
     );
 }
