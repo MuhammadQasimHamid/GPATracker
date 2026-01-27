@@ -7,6 +7,7 @@ interface GPAContextType {
     semesters: Semester[];
     addSemester: () => void;
     removeSemester: (id: string) => void;
+    toggleSemester: (id: string) => void;
     addCourse: (semesterId: string) => void;
     updateCourse: (semesterId: string, courseId: string, updates: Partial<Course>) => void;
     removeCourse: (semesterId: string, courseId: string) => void;
@@ -23,7 +24,9 @@ export const GPAProvider = ({ children }: { children: ReactNode }) => {
         const saved = localStorage.getItem('gpa_data');
         if (saved) {
             try {
-                setSemesters(JSON.parse(saved));
+                const parsed = JSON.parse(saved);
+                // Ensure collapsed state exists for legacy data
+                setSemesters(parsed.map((s: any) => ({ ...s, isCollapsed: s.isCollapsed ?? false })));
             } catch (e) {
                 console.error('Failed to parse saved GPA data', e);
             }
@@ -43,6 +46,7 @@ export const GPAProvider = ({ children }: { children: ReactNode }) => {
             id: crypto.randomUUID(),
             name: `Semester ${semesters.length + 1}`,
             courses: [],
+            isCollapsed: false,
         };
         setSemesters([...semesters, newSemester]);
     };
@@ -51,16 +55,20 @@ export const GPAProvider = ({ children }: { children: ReactNode }) => {
         setSemesters(semesters.filter(s => s.id !== id));
     };
 
+    const toggleSemester = (id: string) => {
+        setSemesters(semesters.map(s => s.id === id ? { ...s, isCollapsed: !s.isCollapsed } : s));
+    };
+
     const addCourse = (semesterId: string) => {
         setSemesters(semesters.map(s => {
             if (s.id === semesterId) {
                 const newCourse: Course = {
                     id: crypto.randomUUID(),
                     name: '',
-                    creditHours: 3,
-                    grade: 'A',
+                    creditHours: '',
+                    grade: '',
                 };
-                return { ...s, courses: [...s.courses, newCourse] };
+                return { ...s, courses: [...s.courses, newCourse], isCollapsed: false };
             }
             return s;
         }));
@@ -91,7 +99,9 @@ export const GPAProvider = ({ children }: { children: ReactNode }) => {
     };
 
     return (
-        <GPAContext.Provider value={{ semesters, addSemester, removeSemester, addCourse, updateCourse, removeCourse }}>
+        <GPAContext.Provider value={{
+            semesters, addSemester, removeSemester, toggleSemester, addCourse, updateCourse, removeCourse
+        }}>
             {children}
         </GPAContext.Provider>
     );

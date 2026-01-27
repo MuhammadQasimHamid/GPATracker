@@ -18,10 +18,10 @@
 
 body {
   background-color: var(--bg);
-  background-image: 
-    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-    radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
-    radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+  background-image:
+    radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
   color: var(--text);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
@@ -43,7 +43,12 @@ body {
   padding: 1.5rem;
   margin-bottom: 2rem;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.semester-card.collapsed {
+  padding-bottom: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 .title {
@@ -66,6 +71,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  white-space: nowrap;
 }
 
 .btn-primary {
@@ -79,9 +85,9 @@ body {
 }
 
 .btn-danger {
-  background: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.1);
   color: var(--danger);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .btn-danger:hover {
@@ -91,24 +97,39 @@ body {
 
 .grid-cols {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr auto;
+  grid-template-columns: 2fr 1.2fr 1fr auto;
   gap: 1rem;
   align-items: center;
   margin-bottom: 1rem;
 }
 
-input, select {
+.grid-labels {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1fr auto;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 0 0.5rem;
+}
+
+input,
+select {
   background: rgba(15, 23, 42, 0.5);
   border: 1px solid var(--glass-border);
   border-radius: 0.4rem;
-  padding: 0.5rem;
+  padding: 0.6rem;
   color: white;
   width: 100%;
+  transition: border-color 0.2s;
 }
 
-input:focus, select:focus {
-  outline: 2px solid var(--primary);
-  border-color: transparent;
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
 }
 
 .cgpa-display {
@@ -128,22 +149,66 @@ input:focus, select:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 0;
+  transition: border-color 0.3s;
+}
+
+.collapsed .semester-header {
+  border-bottom: none;
+}
+
+.semester-card:not(.collapsed) .semester-header {
   border-bottom: 1px solid var(--glass-border);
-  padding-bottom: 0.5rem;
+  padding-bottom: 1rem;
 }
 
 .gpa-badge {
-  background: rgba(16, 185, 129, 0.2);
+  background: rgba(16, 185, 129, 0.1);
   color: var(--success);
-  padding: 0.2rem 0.8rem;
+  padding: 0.3rem 1rem;
   border-radius: 2rem;
   font-size: 0.9rem;
   font-weight: 700;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.chevron {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  transition: transform 0.3s ease;
+}
+
+.chevron.expanded {
+  transform: rotate(90deg);
+}
+
+.semester-content {
+  padding-top: 1.5rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 640px) {
-  .grid-cols {
+
+  .grid-cols,
+  .grid-labels {
     grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .grid-labels {
+    display: none;
   }
 }

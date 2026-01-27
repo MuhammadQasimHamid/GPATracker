@@ -1,9 +1,9 @@
-export type Grade = 'A+' | 'A' | 'A-' | 'B+' | 'B' | 'B-' | 'C+' | 'C' | 'C-' | 'D+' | 'D' | 'F';
+export type Grade = 'A+' | 'A' | 'A-' | 'B+' | 'B' | 'B-' | 'C+' | 'C' | 'C-' | 'D+' | 'D' | 'F' | '';
 
 export interface Course {
   id: string;
   name: string;
-  creditHours: number;
+  creditHours: number | '';
   grade: Grade;
 }
 
@@ -11,9 +11,10 @@ export interface Semester {
   id: string;
   name: string;
   courses: Course[];
+  isCollapsed: boolean;
 }
 
-export const GRADE_POINTS: Record<Grade, number> = {
+export const GRADE_POINTS: Record<Exclude<Grade, ''>, number> = {
   'A+': 4.0,
   'A': 4.0,
   'A-': 3.7,
