@@ -3,6 +3,7 @@
 import { useGPA } from '../context/GPAContext';
 import { calculateCGPA, calculateGPA } from '../utils/calculations';
 import { GRADE_POINTS } from '../types';
+import AdUnit from './AdUnit';
 
 export default function Sidebar() {
     const { semesters } = useGPA();
@@ -35,7 +36,6 @@ export default function Sidebar() {
                     <div key={semester.id} className="glass-card analytics-card">
                         <div className="sidebar-label">{semester.name} TOTAL IMPACT</div>
 
-                        {/* Main Semester Impact Bar */}
                         <div className="semester-total-impact">
                             <div className="impact-bar-bg semester-main-bar">
                                 <div
@@ -67,8 +67,8 @@ export default function Sidebar() {
                 );
             })}
 
-            <div className="ad-placeholder-sidebar">
-                {/* Ad Space */}
+            <div className="sidebar-ads" style={{ marginTop: '2rem' }}>
+                <AdUnit slot="YOUR_SIDEBAR_AD_SLOT_ID" format="auto" />
             </div>
         </aside>
     );

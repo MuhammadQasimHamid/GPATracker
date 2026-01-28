@@ -3,6 +3,7 @@
 import { useGPA } from '../context/GPAContext';
 import Semester from '../components/Semester';
 import Sidebar from '../components/Sidebar';
+import AdUnit from '../components/AdUnit';
 
 export default function Dashboard() {
     const { semesters, addSemester } = useGPA();
@@ -12,8 +13,10 @@ export default function Dashboard() {
             {/* Left Column: Ads */}
             <div className="ad-column left-ad">
                 <div className="ad-content">
-                    <div className="ad-box">AD SPACE</div>
-                    <div className="ad-box">AD SPACE</div>
+                    {/* leftSideup */}
+                    <AdUnit slot="6897433761" style={{ height: '600px' }} />
+                    {/* left side down */}
+                    <AdUnit slot="3211839190" style={{ height: '600px' }} />
                 </div>
             </div>
 
@@ -49,5 +52,6 @@ export default function Dashboard() {
                 <Sidebar />
             </div>
         </div>
+
     );
 }
