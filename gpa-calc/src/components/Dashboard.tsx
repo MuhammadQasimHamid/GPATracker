@@ -25,7 +25,7 @@ export default function Dashboard() {
                     <Sidebar />
                 </div>
 
-                <div className="semesters-controls">
+                <div className="semesters-controls" style={{ marginBottom: '1rem' }}>
                     <button className="btn btn-primary add-semester-btn" onClick={addSemester}>
                         + Add Semester
                     </button>
