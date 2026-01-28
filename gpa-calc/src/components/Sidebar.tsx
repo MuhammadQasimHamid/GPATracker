@@ -23,7 +23,12 @@ export default function Sidebar() {
     return (
         <aside className="sidebar">
             <div className="glass-card cgpa-card">
-                <div className="sidebar-label">Cumulative GPA</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                    <div className="sidebar-label">Cumulative GPA</div>
+                    <div className="sidebar-label">
+                        Total Credits: {totalAllCredits}
+                    </div>
+                </div>
                 <div className="cgpa-value-small">{cgpa.toFixed(2)}</div>
             </div>
 

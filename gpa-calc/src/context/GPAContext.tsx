@@ -61,7 +61,7 @@ export const GPAProvider = ({ children }: { children: ReactNode }) => {
     const addSemester = () => {
         const newSemester: Semester = {
             id: crypto.randomUUID(),
-            name: `Semester ${semesters.length + 1}`,
+            name: `Semester ${semesters.length + 1} (Edit)`,
             courses: Array.from({ length: 4 }).map(() => ({
                 id: crypto.randomUUID(),
                 name: '',

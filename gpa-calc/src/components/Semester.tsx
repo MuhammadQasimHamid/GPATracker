@@ -64,10 +64,15 @@ export default function Semester({ semester }: Props) {
                         ))}
                     </div>
 
-                    <div className="semester-footer">
-                        <button className="btn btn-primary btn-sm" onClick={() => addCourse(semester.id)}>
+                    <div className="semester-footer" style={{ display: 'grid', gridTemplateColumns: '1fr 100px 80px 40px', gap: '0.75rem', alignItems: 'center' }}>
+                        <button className="btn btn-primary btn-sm" style={{ justifySelf: 'start' }} onClick={() => addCourse(semester.id)}>
                             + Course
                         </button>
+                        <div></div>
+                        <div className="header-label" style={{ textAlign: 'center', color: 'var(--text)' }}>
+                            Credits: {semester.courses.reduce((sum, c) => sum + (Number(c.creditHours) || 0), 0)}
+                        </div>
+                        <div></div>
                     </div>
                 </div>
             )}
