@@ -3,7 +3,9 @@
     "short_name": "GPA Saver",
     "description": "Calculate your GPA and CGPA with ease and elegance.",
     "start_url": "/",
+    "scope": "/",
     "display": "standalone",
+    "orientation": "portrait",
     "background_color": "#0f172a",
     "theme_color": "#8b5cf6",
     "icons": [

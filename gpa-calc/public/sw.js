@@ -21,6 +21,14 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+    // Only cache GET requests
+    if (event.request.method !== 'GET') return;
+
+    // Security: Only handle same-origin requests or specific trusted fonts
+    if (!event.request.url.startsWith(self.location.origin) && !event.request.url.includes('fonts.gstatic.com')) {
+        return;
+    }
+
     event.respondWith(
         caches.match(event.request).then((response) => {
             return response || fetch(event.request);
