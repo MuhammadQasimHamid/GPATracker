@@ -47,7 +47,7 @@ export default function Sidebar() {
 
                         <div className="impact-list" style={{ marginTop: '1.5rem' }}>
                             <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginBottom: '0.75rem', textTransform: 'uppercase', fontWeight: 700 }}>
-                                Subject Breakdown
+                                Subjects reducing your GPA
                             </p>
                             {individualImpact.map((item, idx) => (
                                 <div key={idx} className="impact-item">
