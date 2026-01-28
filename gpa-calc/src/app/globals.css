@@ -456,6 +456,11 @@ body {
     gap: 0.5rem;
   }
 
+  .course-header {
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 0.5rem;
+  }
+
   .layout-wrapper {
     padding: 1rem;
   }
@@ -468,6 +473,11 @@ body {
 
 @media (max-width: 450px) {
   .grid-cols {
+    grid-template-columns: 1fr 80px 60px auto;
+    gap: 0.4rem;
+  }
+
+  .course-header {
     grid-template-columns: 1fr 80px 60px auto;
     gap: 0.4rem;
   }
