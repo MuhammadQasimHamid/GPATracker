@@ -12,7 +12,6 @@ export const metadata = {
     'google-adsense-account': 'ca-pub-1558322492471148',
   },
 };
-
 export default function RootLayout({
   children,
 }: {
