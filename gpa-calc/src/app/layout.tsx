@@ -22,6 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://vitals.vercel-insights.com;"
+        />
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className={inter.className}>

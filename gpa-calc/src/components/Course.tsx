@@ -23,6 +23,7 @@ export default function Course({ semesterId, course }: Props) {
                 type="text"
                 className={`input-compact ${isNameEmpty ? 'error' : ''}`}
                 placeholder="Course Name"
+                maxLength={50}
                 value={course.name}
                 onChange={(e) => updateCourse(semesterId, course.id, { name: e.target.value })}
             />
