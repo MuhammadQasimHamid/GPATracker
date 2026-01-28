@@ -51,17 +51,24 @@ export function InstallProvider({ children }: { children: React.ReactNode }) {
             return;
         }
 
-        if (!deferredPrompt) {
-            alert('To install: Use your browser menu (e.g., "Install App" or "Add to Home Screen").');
-            return;
-        }
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
 
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                setDeferredPrompt(null);
+                setIsVisible(false);
+            }
+        } else {
+            // Enhanced platform-aware fallback messaging
+            const isMac = /Mac/.test(navigator.platform);
+            const menuIcon = isMac ? 'Safari "Share" button' : 'browser menu (⋮ or ⋯)';
 
-        if (outcome === 'accepted') {
-            setDeferredPrompt(null);
-            setIsVisible(false);
+            alert(
+                'To add "GPA Saver" to your Desktop / Home Screen:\n\n' +
+                `1. Open your ${menuIcon}.\n` +
+                '2. Select "Add to Home Screen" or "Install App".'
+            );
         }
     };
 

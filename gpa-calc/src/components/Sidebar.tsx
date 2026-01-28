@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 
 import { useGPA } from '../context/GPAContext';
 import { calculateCGPA, calculateGPA } from '../utils/calculations';
@@ -7,6 +8,10 @@ import { GRADE_POINTS } from '../types';
 export default function Sidebar() {
     const { semesters } = useGPA();
     const cgpa = calculateCGPA(semesters);
+
+    const [showPts, setShowPts] = useState(true);
+    const [showGPA, setShowGPA] = useState(true);
+    const [showCGPA, setShowCGPA] = useState(true);
 
     // Calculate Total Credits across ALL semesters for CGPA impact
     const totalAllCredits = semesters.reduce((outerSum, sem) => {
@@ -20,6 +25,21 @@ export default function Sidebar() {
             <div className="glass-card cgpa-card">
                 <div className="sidebar-label">Cumulative GPA</div>
                 <div className="cgpa-value-small">{cgpa.toFixed(2)}</div>
+            </div>
+
+            <div className="glass-card filter-card" style={{ marginBottom: '1.5rem', padding: '1rem' }}>
+                <div className="sidebar-label" style={{ marginBottom: '0.8rem' }}>Display Filters</div>
+                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', cursor: 'pointer' }}>
+                        <input type="checkbox" checked={showPts} onChange={() => setShowPts(!showPts)} /> Pts
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', cursor: 'pointer' }}>
+                        <input type="checkbox" checked={showGPA} onChange={() => setShowGPA(!showGPA)} /> GPA
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', cursor: 'pointer' }}>
+                        <input type="checkbox" checked={showCGPA} onChange={() => setShowCGPA(!showCGPA)} /> CGPA
+                    </label>
+                </div>
             </div>
 
             {semesters.map((semester) => {
@@ -48,7 +68,11 @@ export default function Sidebar() {
                     <div key={semester.id} className="glass-card analytics-card">
                         <div className="sidebar-label">{semester.name} IMPACT OF DROP</div>
                         <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.8rem', marginTop: '-0.3rem' }}>
-                            -{totalSemLoss.toFixed(1)} pts / -{semGPADrop.toFixed(2)} GPA / -{semCGPADrop.toFixed(2)} CGPA
+                            {[
+                                showPts && `-${totalSemLoss.toFixed(1)} pts`,
+                                showGPA && `-${semGPADrop.toFixed(2)} GPA`,
+                                showCGPA && `-${semCGPADrop.toFixed(2)} CGPA`
+                            ].filter(Boolean).join(' / ')}
                         </div>
 
                         <div className="semester-total-impact">
@@ -75,7 +99,11 @@ export default function Sidebar() {
                                         <div className="impact-info">
                                             <span className="impact-name">{item.name}</span>
                                             <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
-                                                -{item.loss.toFixed(1)} pts / -{gpaDrop.toFixed(2)} gpa / -{cgpaDrop.toFixed(2)} cgpa
+                                                {[
+                                                    showPts && `-${item.loss.toFixed(1)} pts`,
+                                                    showGPA && `-${gpaDrop.toFixed(2)} gpa`,
+                                                    showCGPA && `-${cgpaDrop.toFixed(2)} cgpa`
+                                                ].filter(Boolean).join(' / ')}
                                             </span>
                                         </div>
                                         <div className="impact-bar-bg">
