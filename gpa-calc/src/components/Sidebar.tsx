@@ -3,7 +3,6 @@
 import { useGPA } from '../context/GPAContext';
 import { calculateCGPA, calculateGPA } from '../utils/calculations';
 import { GRADE_POINTS } from '../types';
-import AdUnit from './AdUnit';
 
 export default function Sidebar() {
     const { semesters } = useGPA();
@@ -68,7 +67,7 @@ export default function Sidebar() {
             })}
 
             <div className="sidebar-ads" style={{ marginTop: '2rem' }}>
-                <AdUnit slot="YOUR_SIDEBAR_AD_SLOT_ID" format="auto" />
+                {/* Ads removed */}
             </div>
         </aside>
     );
