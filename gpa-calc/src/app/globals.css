@@ -100,6 +100,15 @@ body {
   gap: 1rem;
 }
 
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
 .reorder-btns-left {
   display: flex;
   flex-direction: column;
@@ -231,6 +240,19 @@ body {
 
 .btn-danger-text:hover {
   color: var(--danger);
+}
+
+.btn-header-install {
+  background: rgba(139, 92, 246, 0.1);
+  color: var(--primary) !important;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+}
+
+.btn-header-install:hover {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: var(--primary);
 }
 
 /* Grid & Courses */

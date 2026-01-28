@@ -3,9 +3,11 @@
 import { useGPA } from '../context/GPAContext';
 import Semester from '../components/Semester';
 import Sidebar from '../components/Sidebar';
+import { useInstall } from './InstallPrompt';
 
 export default function Dashboard() {
     const { semesters, addSemester } = useGPA();
+    const { handleInstallClick } = useInstall();
 
     return (
         <div className="layout-wrapper">
@@ -18,7 +20,12 @@ export default function Dashboard() {
 
             {/* Middle Column: Main Content */}
             <main className="main-content">
-                <h1 className="title-left">GPA Saver</h1>
+                <div className="header-container">
+                    <h1 className="title-left" style={{ marginBottom: 0 }}>GPA Saver</h1>
+                    <button className="btn btn-header-install" onClick={handleInstallClick}>
+                        <span>󰐖</span> Add to Home Screen
+                    </button>
+                </div>
 
                 <div className="mobile-only">
                     <Sidebar />

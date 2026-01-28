@@ -1,8 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 
-export default function InstallPrompt() {
+interface InstallContextType {
+    deferredPrompt: any;
+    isIos: boolean;
+    isVisible: boolean;
+    setIsVisible: (visible: boolean) => void;
+    handleInstallClick: () => Promise<void>;
+}
+
+const InstallContext = createContext<InstallContextType | undefined>(undefined);
+
+export function InstallProvider({ children }: { children: React.ReactNode }) {
     const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
     const [isIos, setIsIos] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
@@ -15,29 +25,20 @@ export default function InstallPrompt() {
             });
         }
 
-        // Check if iOS
         const isIosDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
         setIsIos(isIosDevice);
 
-        // Detect if app is already installed/standalone
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone;
 
-        if (isStandalone) {
-            return;
-        }
+        if (isStandalone) return;
 
         const handleBeforeInstallPrompt = (e: any) => {
             e.preventDefault();
             setDeferredPrompt(e);
-            setIsVisible(true);
+            // Default popup logic can stay here or be triggered elsewhere
         };
 
         window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-        // For iOS, show the prompt manually if not standalone
-        if (isIosDevice && !isStandalone) {
-            setIsVisible(true);
-        }
 
         return () => {
             window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -45,7 +46,15 @@ export default function InstallPrompt() {
     }, []);
 
     const handleInstallClick = async () => {
-        if (!deferredPrompt) return;
+        if (isIos) {
+            setIsVisible(true);
+            return;
+        }
+
+        if (!deferredPrompt) {
+            alert('To install: Use your browser menu (e.g., "Install App" or "Add to Home Screen").');
+            return;
+        }
 
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
@@ -55,6 +64,31 @@ export default function InstallPrompt() {
             setIsVisible(false);
         }
     };
+
+    return (
+        <InstallContext.Provider value={{ deferredPrompt, isIos, isVisible, setIsVisible, handleInstallClick }}>
+            {children}
+        </InstallContext.Provider>
+    );
+}
+
+export function useInstall() {
+    const context = useContext(InstallContext);
+    if (!context) throw new Error('useInstall must be used within an InstallProvider');
+    return context;
+}
+
+export default function InstallPrompt() {
+    const { isVisible, setIsVisible, isIos, handleInstallClick, deferredPrompt } = useInstall();
+
+    // Auto-show bottom prompt only if prompt is available (PC/Android) or it's iOS
+    useEffect(() => {
+        if (deferredPrompt || isIos) {
+            // Optional: Auto-show after some delay
+            const timer = setTimeout(() => setIsVisible(true), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [deferredPrompt, isIos, setIsVisible]);
 
     if (!isVisible) return null;
 
