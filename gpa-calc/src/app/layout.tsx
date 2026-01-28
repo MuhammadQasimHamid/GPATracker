@@ -26,6 +26,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="lazyOnload"
         />
+        <meta name="google-adsense-account" content="ca-pub-1558322492471148"></meta>
       </head>
       <body className={inter.className}>
         <GPAProvider>
