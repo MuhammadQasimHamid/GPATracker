@@ -1,6 +1,6 @@
 {
-    "name": "Premium GPA Calculator",
-    "short_name": "GPA Calc",
+    "name": "GPA Saver",
+    "short_name": "GPA Saver",
     "description": "Calculate your GPA and CGPA with ease and elegance.",
     "start_url": "/",
     "display": "standalone",

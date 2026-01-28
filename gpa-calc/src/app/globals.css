@@ -399,7 +399,7 @@ body {
 
 /* Visibility Utilities - CRITICAL FIX */
 .desktop-only {
-  /* display: block; removed to allow grid/flex */
+  /* removed display: block to allow grid/flex, using media queries below */
 }
 
 .mobile-only {

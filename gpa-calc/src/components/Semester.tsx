@@ -53,7 +53,7 @@ export default function Semester({ semester }: Props) {
             {!semester.isCollapsed && (
                 <div className="semester-content">
                     <div className="courses-list" >
-                        <div className="course-header desktop-only">
+                        <div className="course-header">
                             <div className="header-label">Course Name</div>
                             <div className="header-label">Grade</div>
                             <div className="header-label">CH</div>

@@ -18,7 +18,7 @@ export default function Dashboard() {
 
             {/* Middle Column: Main Content */}
             <main className="main-content">
-                <h1 className="title-left">GPA Calculator</h1>
+                <h1 className="title-left">GPA Saver</h1>
 
                 <div className="mobile-only">
                     <Sidebar />

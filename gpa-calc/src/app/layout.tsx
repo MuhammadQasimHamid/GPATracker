@@ -7,7 +7,7 @@ import InstallPrompt from '@/components/InstallPrompt';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Premium GPA Calculator',
+  title: 'GPA Saver',
   description: 'Calculate your GPA and CGPA with ease and elegance. Data saved locally.',
   manifest: '/manifest.json',
 };

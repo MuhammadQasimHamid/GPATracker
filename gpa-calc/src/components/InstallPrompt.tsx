@@ -8,6 +8,13 @@ export default function InstallPrompt() {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch((err) => {
+                console.error('Service Worker registration failed:', err);
+            });
+        }
+
         // Check if iOS
         const isIosDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
         setIsIos(isIosDevice);
@@ -54,7 +61,7 @@ export default function InstallPrompt() {
     return (
         <div className="glass-card install-prompt">
             <div className="install-header">
-                <span className="install-title">Install GPA Calculator</span>
+                <span className="install-title">Install GPA Saver</span>
                 <button className="btn-icon-danger" onClick={() => setIsVisible(false)}>✕</button>
             </div>
             <p className="install-desc">
