@@ -20,12 +20,8 @@ export default function RootLayout({
       <head>
         {/* Google AdSense Global Script */}
         {/* Replace 'YOUR_PUBLISHER_ID' with your actual AdSense ID (e.g., ca-pub-1234567890) */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1558322492471148"
-          crossOrigin="anonymous"
-          strategy="lazyOnload"
-        />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1558322492471148"
+          crossOrigin="anonymous"></script>
         <meta name="google-adsense-account" content="ca-pub-1558322492471148"></meta>
       </head>
       <body className={inter.className}>
