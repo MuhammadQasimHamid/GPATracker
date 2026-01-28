@@ -53,6 +53,12 @@ export default function Semester({ semester }: Props) {
             {!semester.isCollapsed && (
                 <div className="semester-content">
                     <div className="courses-list" >
+                        <div className="course-header desktop-only">
+                            <div className="header-label">Course Name</div>
+                            <div className="header-label">Grade</div>
+                            <div className="header-label">CH</div>
+                            <div className="header-label"></div>
+                        </div>
                         {semester.courses.map((course) => (
                             <Course key={course.id} semesterId={semester.id} course={course} />
                         ))}
