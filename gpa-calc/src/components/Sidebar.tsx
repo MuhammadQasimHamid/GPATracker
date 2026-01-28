@@ -16,9 +16,7 @@ export default function Sidebar() {
             </div>
 
             {semesters.map((semester) => {
-                const semesterGPA = calculateGPA(semester.courses);
-
-                // Calculate Impact for this specific semester
+                // Calculate Impact for individual courses
                 const individualImpact = semester.courses
                     .filter(c => c.name && c.grade !== '' && c.creditHours !== '' && Number(c.creditHours) > 0)
                     .map(c => ({
@@ -28,15 +26,29 @@ export default function Sidebar() {
                     .filter(i => i.loss > 0)
                     .sort((a, b) => b.loss - a.loss);
 
+                // Calculate Total Semester Impact
+                const totalSemesterLoss = individualImpact.reduce((sum, item) => sum + item.loss, 0);
+
                 if (individualImpact.length === 0) return null;
 
                 return (
                     <div key={semester.id} className="glass-card analytics-card">
-                        <div className="sidebar-label">{semester.name} Impact</div>
-                        <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
-                            GPA: {semesterGPA.toFixed(2)}
-                        </p>
-                        <div className="impact-list">
+                        <div className="sidebar-label">{semester.name} TOTAL IMPACT</div>
+
+                        {/* Main Semester Impact Bar */}
+                        <div className="semester-total-impact">
+                            <div className="impact-bar-bg semester-main-bar">
+                                <div
+                                    className="impact-bar-fill"
+                                    style={{ width: `${Math.min(100, totalSemesterLoss * 10)}%` }}
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div className="impact-list" style={{ marginTop: '1.5rem' }}>
+                            <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginBottom: '0.75rem', textTransform: 'uppercase', fontWeight: 700 }}>
+                                Subject Breakdown
+                            </p>
                             {individualImpact.map((item, idx) => (
                                 <div key={idx} className="impact-item">
                                     <div className="impact-info">

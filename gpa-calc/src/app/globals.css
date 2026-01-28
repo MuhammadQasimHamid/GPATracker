@@ -180,29 +180,43 @@ body {
   white-space: nowrap;
 }
 
-/* Button Refinements */
-.semesters-controls {
-  margin-bottom: 2rem;
-  display: flex;
-  justify-content: flex-end;
+/* Buttons */
+.btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.6rem;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+}
+
+.btn-sm {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.8rem;
+  border-radius: 0.5rem;
 }
 
 .add-semester-btn {
-  padding: 0.8rem 1.5rem;
-  font-size: 0.9rem;
-  background: var(--primary) !important;
-  color: white !important;
-  border: none !important;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  cursor: pointer;
+  padding: 0.8rem 1.6rem;
+  font-size: 0.95rem;
   box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-  transition: all 0.2s;
-}
-
-.add-semester-btn:hover {
-  background: var(--primary-hover) !important;
-  transform: translateY(-1px);
 }
 
 .btn-danger-text {
@@ -283,7 +297,6 @@ body {
 
 .impact-mini-item {
   display: flex;
-  flex-direction: column;
   gap: 0.25rem;
 }
 
@@ -291,6 +304,15 @@ body {
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--text-muted);
+}
+
+.semester-main-bar {
+  height: 10px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.semester-main-bar .impact-bar-fill {
+  background: linear-gradient(90deg, #ef4444, #b91c1c) !important;
 }
 
 .impact-bar-bg-mini {
