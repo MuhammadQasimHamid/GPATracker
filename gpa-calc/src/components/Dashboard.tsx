@@ -4,6 +4,7 @@ import { useGPA } from '../context/GPAContext';
 import Semester from '../components/Semester';
 import Sidebar from '../components/Sidebar';
 import { useInstall } from './InstallPrompt';
+import { GRADE_POINTS } from '../types';
 
 export default function Dashboard() {
     const { semesters, addSemester } = useGPA();
@@ -45,7 +46,24 @@ export default function Dashboard() {
                             </p>
                         </div>
                     ) : (
-                        semesters.map((s) => <Semester key={s.id} semester={s} />)
+                        semesters.map((s, index) => {
+                            const previousSemesters = semesters.slice(0, index + 1);
+                            let cumPoints = 0;
+                            let cumCredits = 0;
+
+                            previousSemesters.forEach(sem => {
+                                sem.courses.forEach(c => {
+                                    if (c.grade && c.creditHours && Number(c.creditHours) > 0) {
+                                        cumPoints += (GRADE_POINTS[c.grade] * Number(c.creditHours));
+                                        cumCredits += Number(c.creditHours);
+                                    }
+                                });
+                            });
+
+                            const runningCGPA = cumCredits === 0 ? 0 : cumPoints / cumCredits;
+
+                            return <Semester key={s.id} semester={s} runningCGPA={runningCGPA} />;
+                        })
                     )}
                 </div>
             </main>

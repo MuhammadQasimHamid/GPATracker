@@ -7,9 +7,10 @@ import { calculateGPA } from '../utils/calculations';
 
 interface Props {
     semester: SemesterType;
+    runningCGPA: number;
 }
 
-export default function Semester({ semester }: Props) {
+export default function Semester({ semester, runningCGPA }: Props) {
     const {
         addCourse, removeSemester, toggleSemester, renameSemester, moveSemesterUp, moveSemesterDown
     } = useGPA();
@@ -40,6 +41,7 @@ export default function Semester({ semester }: Props) {
                 </div>
 
                 <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
+                    <div className="gpa-badge">Running CGPA: {runningCGPA.toFixed(2)}</div>
                     <div className="gpa-badge">GPA: {gpa.toFixed(2)}</div>
                     <button
                         className="btn-danger-text"
