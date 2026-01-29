@@ -293,6 +293,13 @@ body {
   width: 100%;
 }
 
+/* Native select option elements often use the OS-default white background.
+   Ensure option text is visible by forcing a dark color on option elements. */
+.select-compact option {
+  color: #0f172a !important;
+  background: #ffffff !important;
+}
+
 .btn-icon-danger {
   background: transparent;
   border: none;
