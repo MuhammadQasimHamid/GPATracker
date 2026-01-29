@@ -288,7 +288,7 @@ export default function Sidebar() {
                 color: 'var(--text-muted)',
                 opacity: 0.7
             }}>
-                Ver 1.2 (Last Update 1/29/2026)
+                Ver 1.3 (Last Update 1/29/2026)
             </div>
         </aside>
     );
