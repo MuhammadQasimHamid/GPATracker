@@ -19,6 +19,10 @@ const nextConfig: NextConfig = {
             value: '0',
           },
           {
+            key: 'Clear-Site-Data',
+            value: '"cache"',
+          },
+          {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
           },

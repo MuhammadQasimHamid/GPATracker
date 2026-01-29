@@ -18,10 +18,12 @@ export function InstallProvider({ children }: { children: React.ReactNode }) {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        // Register Service Worker
+        // Unregister Service Workers to clear cache issues
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').catch((err) => {
-                console.error('Service Worker registration failed:', err);
+            navigator.serviceWorker.getRegistrations().then(function (registrations) {
+                for (let registration of registrations) {
+                    registration.unregister();
+                }
             });
         }
 
