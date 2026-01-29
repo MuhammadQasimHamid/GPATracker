@@ -3,6 +3,7 @@ import './globals.css';
 import { GPAProvider } from '@/context/GPAContext';
 import { Analytics } from '@vercel/analytics/next';
 import InstallPrompt, { InstallProvider } from '@/components/InstallPrompt';
+import CacheBuster from '@/components/CacheBuster';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -14,6 +15,7 @@ export const metadata = {
     icon: '/favicon.ico',
   },
 };
+
 export default function RootLayout({
   children,
 }: {
@@ -34,6 +36,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <GPAProvider>
           <InstallProvider>
+            <CacheBuster />
             {children}
             <Analytics />
             <InstallPrompt />
