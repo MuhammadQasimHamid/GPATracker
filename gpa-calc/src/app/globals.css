@@ -295,9 +295,22 @@ body {
 
 /* Native select option elements often use the OS-default white background.
    Ensure option text is visible by forcing a dark color on option elements. */
+.select-compact {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 2rem; /* leave space for custom arrow */
+  background-position: right 0.6rem center;
+  background-repeat: no-repeat;
+}
+
+/* Avoid forcing an explicit background on native option popups.
+   Many desktop browsers/OSes render option lists using native UI and
+   ignore or misapply CSS. Keep option color unset so the browser
+   chooses an appropriate readable color for the native popup. */
 .select-compact option {
-  color: #0f172a !important;
-  background: #ffffff !important;
+  color: initial !important;
+  background: initial !important;
 }
 
 .btn-icon-danger {
