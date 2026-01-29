@@ -185,20 +185,26 @@ export default function Sidebar() {
                 if (individualImpact.length === 0) return null;
 
                 const isOverallGain = totalSemImpact > 0;
-                const barColor = isOverallGain
-                    ? 'linear-gradient(90deg, #10b981, #059669)'
-                    : 'linear-gradient(90deg, #f472b6, #ef4444)';
+                const barColor = impactMode === 'overall'
+                    ? 'linear-gradient(90deg, #f472b6, #ef4444)' // Always red in Overall mode
+                    : (isOverallGain
+                        ? 'linear-gradient(90deg, #10b981, #059669)' // Green for gains in Relative mode
+                        : 'linear-gradient(90deg, #f472b6, #ef4444)'); // Red for drops in Relative mode
                 const labelPrefix = impactMode === 'overall' ? 'IMPACT OF DROP' : (isOverallGain ? 'GAIN FROM PREV' : 'DROP FROM PREV');
 
                 return (
                     <div key={semester.id} className="glass-card analytics-card">
                         <div className="sidebar-label">{semester.name} {labelPrefix}</div>
                         <div style={{ fontSize: '0.7rem', color: isOverallGain && impactMode === 'relative' ? '#10b981' : 'var(--text-muted)', marginBottom: '0.8rem', marginTop: '-0.3rem' }}>
-                            {[
-                                showPts && `${isOverallGain && impactMode === 'relative' ? '+' : '-'}${Math.abs(totalSemImpact).toFixed(1)} pts`,
-                                showGPA && `${isOverallGain && impactMode === 'relative' ? '+' : '-'}${Math.abs(semGPAImpact).toFixed(2)} GPA`,
-                                showCGPA && `${isOverallGain && impactMode === 'relative' ? '+' : '-'}${Math.abs(semCGPAImpact).toFixed(2)} CGPA`
-                            ].filter(Boolean).join(' / ')}
+                            {Math.abs(totalSemImpact) < 0.01 ? (
+                                "No DROP/GAIN"
+                            ) : (
+                                [
+                                    showPts && `${isOverallGain && impactMode === 'relative' ? '+' : '-'}${Math.abs(totalSemImpact).toFixed(1)} pts`,
+                                    showGPA && `${isOverallGain && impactMode === 'relative' ? '+' : '-'}${Math.abs(semGPAImpact).toFixed(2)} GPA`,
+                                    showCGPA && `${isOverallGain && impactMode === 'relative' ? '+' : '-'}${Math.abs(semCGPAImpact).toFixed(2)} CGPA`
+                                ].filter(Boolean).join(' / ')
+                            )}
                         </div>
 
                         <div className="semester-total-impact">
@@ -241,12 +247,16 @@ export default function Sidebar() {
                                     <div key={idx} className="impact-item">
                                         <div className="impact-info">
                                             <span className="impact-name">{item.name}</span>
-                                            <span style={{ fontSize: '0.7rem', color: item.isGain ? '#10b981' : 'var(--text-muted)' }}>
-                                                {[
-                                                    showPts && `${item.isGain && impactMode === 'relative' ? '+' : '-'}${displayPts.toFixed(1)} pts`,
-                                                    showGPA && `${item.isGain && impactMode === 'relative' ? '+' : '-'}${displayGPA.toFixed(2)} gpa`,
-                                                    showCGPA && `${item.isGain && impactMode === 'relative' ? '+' : '-'}${displayCGPA.toFixed(2)} cgpa`
-                                                ].filter(Boolean).join(' / ')}
+                                            <span style={{ fontSize: '0.7rem', color: Math.abs(displayPts) < 0.01 ? 'var(--text-muted)' : (item.isGain ? '#10b981' : 'var(--text-muted)') }}>
+                                                {Math.abs(displayPts) < 0.01 ? (
+                                                    "No Impact"
+                                                ) : (
+                                                    [
+                                                        showPts && `${item.isGain && impactMode === 'relative' ? '+' : '-'}${Math.abs(displayPts).toFixed(1)} pts`,
+                                                        showGPA && `${item.isGain && impactMode === 'relative' ? '+' : '-'}${Math.abs(displayGPA).toFixed(2)} gpa`,
+                                                        showCGPA && `${item.isGain && impactMode === 'relative' ? '+' : '-'}${Math.abs(displayCGPA).toFixed(2)} cgpa`
+                                                    ].filter(Boolean).join(' / ')
+                                                )}
                                             </span>
                                         </div>
                                         <div className="impact-bar-bg">
@@ -268,6 +278,17 @@ export default function Sidebar() {
 
             <div className="sidebar-ads" style={{ marginTop: '2rem' }}>
                 {/* Ads removed */}
+            </div>
+
+            <div style={{
+                marginTop: 'auto',
+                paddingTop: '2rem',
+                textAlign: 'center',
+                fontSize: '0.7rem',
+                color: 'var(--text-muted)',
+                opacity: 0.7
+            }}>
+                Ver 1.2 (Last Update 1/29/2026)
             </div>
         </aside>
     );

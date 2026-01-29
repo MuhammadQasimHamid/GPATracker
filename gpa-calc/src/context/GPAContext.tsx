@@ -18,6 +18,18 @@ interface GPAContextType {
 
 const GPAContext = createContext<GPAContextType | undefined>(undefined);
 
+const generateUUID = () => {
+    // Check if crypto.randomUUID is available (secure context)
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+        return crypto.randomUUID();
+    }
+    // Fallback for non-secure contexts (e.g. local IP on mobile)
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+};
+
 export const GPAProvider = ({ children }: { children: ReactNode }) => {
     const [semesters, setSemesters] = useState<Semester[]>([]);
     const [isInitialized, setIsInitialized] = useState(false);
@@ -35,13 +47,13 @@ export const GPAProvider = ({ children }: { children: ReactNode }) => {
             }
         } else {
             // Initial load with 1 semester
-            const initialId = crypto.randomUUID();
+            const initialId = generateUUID();
             setSemesters([{
                 id: initialId,
                 name: "Semester 1",
                 isCollapsed: false,
                 courses: Array.from({ length: 4 }).map(() => ({
-                    id: crypto.randomUUID(),
+                    id: generateUUID(),
                     name: '',
                     grade: '',
                     creditHours: ''
@@ -60,10 +72,10 @@ export const GPAProvider = ({ children }: { children: ReactNode }) => {
 
     const addSemester = () => {
         const newSemester: Semester = {
-            id: crypto.randomUUID(),
+            id: generateUUID(),
             name: `Semester ${semesters.length + 1} (Edit)`,
             courses: Array.from({ length: 4 }).map(() => ({
-                id: crypto.randomUUID(),
+                id: generateUUID(),
                 name: '',
                 grade: '',
                 creditHours: ''
@@ -118,7 +130,7 @@ export const GPAProvider = ({ children }: { children: ReactNode }) => {
         setSemesters(semesters.map(s => {
             if (s.id === semesterId) {
                 const newCourse: Course = {
-                    id: crypto.randomUUID(),
+                    id: generateUUID(),
                     name: '',
                     creditHours: '',
                     grade: '',
