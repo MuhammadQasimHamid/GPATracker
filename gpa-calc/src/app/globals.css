@@ -49,6 +49,20 @@ body {
   min-width: 0;
 }
 
+/* Allow grid/flex children to shrink correctly in Firefox and other browsers.
+   Firefox treats intrinsic min-width differently; setting min-width:0 on
+   container elements prevents long content from forcing layout breaks. */
+.glass-card,
+.semester-card,
+.semester-content,
+.semesters-list,
+.courses-list,
+.course-header,
+.grid-cols,
+.semester-footer {
+  min-width: 0;
+}
+
 .ad-column {
   display: flex;
   flex-direction: column;
@@ -311,6 +325,16 @@ body {
 .select-compact option {
   color: initial !important;
   background: initial !important;
+}
+
+/* Firefox-only override: some Firefox builds inherit the closed select's white text
+   into the native options popup, making them invisible on white backgrounds.
+   Target Firefox specifically to avoid forcing this behavior on other browsers. */
+@-moz-document url-prefix() {
+  .select-compact option {
+    color: #0f172a !important;
+    background: #ffffff !important;
+  }
 }
 
 .btn-icon-danger {
