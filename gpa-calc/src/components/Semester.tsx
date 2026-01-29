@@ -17,7 +17,9 @@ export default function Semester({ semester, runningCGPA }: Props) {
     const gpa = calculateGPA(semester.courses);
 
     return (
-        <div className={`glass-card semester-card ${semester.isCollapsed ? 'collapsed' : ''}`}>
+        <div className={`glass-card semester-card ${semester.isCollapsed ? 'collapsed' : ''}`}
+        // onClick={() => toggleSemester(semester.id)}
+        >
             <div className="semester-header">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', flex: 1 }}>
                     <div className="reorder-btns-left">
@@ -36,13 +38,14 @@ export default function Semester({ semester, runningCGPA }: Props) {
                         className="semester-title-input"
                         value={semester.name}
                         onChange={(e) => renameSemester(semester.id, e.target.value)}
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e) => { e.stopPropagation(); toggleSemester(semester.id); }}
+
                     />
                 </div>
 
                 <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
-                    <div className="gpa-badge">Running CGPA: {runningCGPA.toFixed(2)}</div>
-                    <div className="gpa-badge">GPA: {gpa.toFixed(2)}</div>
+                    <div className="gpa-badge" onClick={() => toggleSemester(semester.id)}>Running CGPA: {runningCGPA.toFixed(2)}</div>
+                    <div className="gpa-badge" onClick={() => toggleSemester(semester.id)}>GPA: {gpa.toFixed(2)}</div>
                     <button
                         className="btn-danger-text"
                         onClick={() => removeSemester(semester.id)}

@@ -31,7 +31,7 @@ export default function Sidebar() {
                         Total Credits: {totalAllCredits}
                     </div>
                 </div>
-                <div className="cgpa-value-small">{cgpa.toFixed(2)}</div>
+                <div className="cgpa-value-small">{cgpa.toFixed(3)}</div>
             </div>
 
             <GPAGraph semesters={semesters} />
