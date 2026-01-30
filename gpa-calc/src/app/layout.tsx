@@ -32,6 +32,7 @@ export default function RootLayout({
         <meta httpEquiv="Pragma" content="no-cache" />
         <meta httpEquiv="Expires" content="0" />
         <link rel="manifest" href="/manifest.json" />
+        <title>Gpa Saver</title>
       </head>
       <body className={inter.className}>
         <GPAProvider>
